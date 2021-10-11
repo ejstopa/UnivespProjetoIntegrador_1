@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Questões | {{ block.super }}
+{% endblock %}
+{% block container %}
+<div>
+    <ul>
+        {% for question in questions %}
+            <a href="{% url 'core:update_question' question.id %}">
+                <li> {{ question.description }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'core:create_question' %}">Nova Questão</a>
+</div>
+{% endblock %}

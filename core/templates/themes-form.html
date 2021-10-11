@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Matéria | {{ block.super }}
+{% endblock %}
+{% block container %}
+<div>
+    <h1>Novo/Alterar matéria</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Save</button>
+    </form>
+
+
+    {% if theme %}
+        <a href="{% url 'core:delete_theme' theme.id %}">Delete</a>
+    {% endif %}
+</div>
+{% endblock %}

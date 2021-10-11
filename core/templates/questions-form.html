@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Questões | {{ block.super }}
+{% endblock %}
+{% block container %}
+<div>
+    <h1>Novo/Alterar questão</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Save</button>
+    </form>
+
+
+    {% if question %}
+        <a href="{% url 'core:delete_question' question.id %}">Delete</a>
+    {% endif %}
+</div>
+{% endblock %}

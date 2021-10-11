@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Matéria | {{ block.super }}
+{% endblock %}
+{% block container %}
+<div>
+
+
+    <ul>
+        {% for theme in themes %}
+            <a href="{% url 'core:update_theme' theme.id %}">
+                <li> {{ theme.description }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'core:create_theme' %}">Nova Questão</a>
+</div>
+{% endblock %}
