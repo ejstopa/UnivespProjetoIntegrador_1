@@ -6,15 +6,20 @@
     Questões | {{ block.super }}
 {% endblock %}
 {% block container %}
-<div>
-    <ul>
-        {% for question in questions %}
-            <a href="{% url 'core:update_question' question.id %}">
-                <li> {{ question.description }}</li>
-            </a>
-        {% endfor %}
-    </ul>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="page-header">
+            <h1>Perguntas</h1>
+        </div>
+        <ul class="list-group">
+            {% for question in questions %}
+                <a href="{% url 'core:update_question' question.id %}">
+                    <li class="list-group-item"> {{ question.description }}</li>
+                </a>
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'core:create_question' %}">Nova Questão</a>
+        <a href="{% url 'core:create_question' %}"> <button class="btn btn-primary" >  Nova Questão </button></a>
+    </div>
 </div>
 {% endblock %}

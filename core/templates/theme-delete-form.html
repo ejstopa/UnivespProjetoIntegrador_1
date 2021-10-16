@@ -10,7 +10,7 @@
     <form method="post">
         {% csrf_token %}
         <h2>Tem certeza que deseja remover esta matéria {{ theme.description }} ?</h2>
-        <button type="submit">Confirm</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
     </form>
 </div>
 {% endblock %}

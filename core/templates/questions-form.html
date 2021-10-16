@@ -11,13 +11,36 @@
 
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Save</button>
+        <!-- {{ form }} -->
+
+        {% for field in form %}
+            {% if field.label != 'Usuários'  %}
+                <div class="form-group{% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.auto_id }}" class="col-md-3 control-label">{{ field.label }}</label>
+                    <div class="col-md-9">
+                    
+                            {% render_field field class="form-control" %}
+                        
+                        {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                {% render_field field class="d-none" %}
+            {% endif %}
+            
+        {% endfor %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            {% if question %}
+                <a href="{% url 'core:delete_question' question.id %}"> <button class="btn" style="background-color:red; color:white">Deletar </button></a>
+            {% endif %}
+        </div>
+        
     </form>
 
 
-    {% if question %}
-        <a href="{% url 'core:delete_question' question.id %}">Delete</a>
-    {% endif %}
+
 </div>
 {% endblock %}

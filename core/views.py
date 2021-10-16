@@ -1,3 +1,4 @@
+from django.db import models
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .forms import ContactForm , QuestionForm, ThemeForm
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import View, TemplateView, CreateView, DetailView, ListView
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.decorators import login_required
 from .models import Question, Theme, Attempt
 
 User = get_user_model()
@@ -16,7 +17,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 index = IndexView.as_view()
 
-
+@login_required
 def contact(request):
     success = False        
     form = ContactForm(request.POST or None)
@@ -48,13 +49,20 @@ def project(request):
 
 def list_theme(request):
     themes = Theme.objects.all()
-    return render(request, 'themes.html', {'themes': themes})
+    user  = request.user
+    user_id = user.id
+    current_user= User.objects.get(id=user_id)
+    user_themes = current_user.theme_set.all()
+    return render(request, 'themes.html', {'themes': user_themes})
 
 
 def create_theme(request):
     form = ThemeForm(request.POST or None)
-
+    user  = request.user
+    user_id = user.id
+    form.initial["user"] = user_id
     if form.is_valid():
+        form.initial["user"] = user_id
         form.save()
         return redirect('list_theme')
 
@@ -64,8 +72,11 @@ def create_theme(request):
 def update_theme(request, id):
     theme = Theme.objects.get(id=id)
     form = ThemeForm(request.POST or None, instance=theme)
-
+    user  = request.user
+    user_id = user.id
+    form.initial["user"] = user_id
     if form.is_valid():
+        form.initial["user"] = user_id
         form.save()
         return redirect('list_theme')
 
@@ -91,15 +102,22 @@ def delete_theme(request, id):
 
 def list_question(request):
     questions = Question.objects.all()
-    return render(request, 'questions.html', {'questions': questions})
+    user  = request.user
+    user_id = user.id
+    current_user= User.objects.get(id=user_id)
+    user_questions = current_user.question_set.all()
+    return render(request, 'questions.html', {'questions': user_questions})
 
 
 def create_question(request):
     form = QuestionForm(request.POST or None)
-
+    user  = request.user
+    user_id = user.id
+    form.initial["user"] = user_id
     if form.is_valid():
+        form.initial["user"] = user_id
         form.save()
-        return redirect('list_question')
+        return redirect('core:list_question')
 
     return render(request, 'questions-form.html', {'form': form})
 
@@ -107,10 +125,13 @@ def create_question(request):
 def update_question(request, id):
     question = Question.objects.get(id=id)
     form = QuestionForm(request.POST or None, instance=question)
-
+    user  = request.user
+    user_id = user.id
+    form.initial["user"] = user_id
     if form.is_valid():
+        form.initial["user"] = user_id
         form.save()
-        return redirect('list_question')
+        return redirect('core:list_question')
 
     return render(request, 'questions-form.html', {'form': form, 'question': question})
 
@@ -120,7 +141,7 @@ def delete_question(request, id):
 
     if request.method == 'POST':
         question.delete()
-        return redirect('list_question')
+        return redirect('core:list_question')
 
     return render(request, 'question-delete-confirm.html', {'question': question})
 

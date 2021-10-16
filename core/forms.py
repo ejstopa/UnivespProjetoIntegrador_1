@@ -21,7 +21,7 @@ class ContactForm(forms.Form):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['description', 'answer', 'image', 'theme', 'user']
+        fields = ['description', 'answer', 'theme', 'user']
 
 class ThemeForm(forms.ModelForm):
     class Meta:
