@@ -85,12 +85,12 @@ def update_theme(request, id):
 
 def delete_theme(request, id):
     theme = Theme.objects.get(id=id)
-
+    print(request.method)
     if request.method == 'POST':
         theme.delete()
         return redirect('list_theme')
 
-    return render(request, 'theme-delete-confirm.html', {'theme': theme})
+    return render(request, 'theme-delete-form.html', {'theme': theme})
 
 
 ##Classe para acesso as informações da tabela Question
@@ -143,7 +143,7 @@ def delete_question(request, id):
         question.delete()
         return redirect('core:list_question')
 
-    return render(request, 'question-delete-confirm.html', {'question': question})
+    return render(request, 'question-delete-form.html', {'question': question})
 
 ##Classe para acesso as informações da tabela Attempt
 class AttemptListView(ListView):

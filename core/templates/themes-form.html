@@ -23,18 +23,19 @@
                 {% endfor %}
             </div>
             </div>
+            {%else%}
+                {% render_field field class="form-control hidden" %}
             {% endif %}
         
          {% endfor %}
         <div class="form-group">
             <button type="submit" class="btn btn-primary ">Salvar</button>
             {% if theme %}
-                <a href="{% url 'core:delete_theme' theme.id %}"> <button class="btn" style="background-color:red; color:white"> Deletar </button></a>
+            
+                <a href="{% url 'core:delete_theme' theme.id %}"> <button type="button" class="btn deletar" style="background-color:red; color:white"> Deletar </button></a>
             {% endif %}
         </div>
     </form>
-
-
    
 </div>
 {% endblock %}
