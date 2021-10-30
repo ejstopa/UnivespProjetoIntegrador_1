@@ -1,6 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import fields
 from .models import Question, Theme, Attempt
 
 class ContactForm(forms.Form):
@@ -27,3 +28,15 @@ class ThemeForm(forms.ModelForm):
     class Meta:
         model = Theme
         fields = ['description','user']
+
+class AttemptForm(forms.ModelForm):
+    class Meta:
+        model = Attempt
+        fields = ['attempt_number', 'question', 'difficult', 'got_it_right','user']        
+
+# class AttemptForm(forms.Form):
+#     attempt_number = forms.IntegerField(label='Tentativa')
+#     got_it_right = forms.BooleanField(label='acertou')
+#     difficult = forms.IntegerField(label='dificuldade')
+#     question = forms.ChoiceField(label='questão')
+#     user = forms.CharField(label='usuario')

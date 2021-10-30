@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from .forms import ContactForm , QuestionForm, ThemeForm
+from .forms import AttemptForm, ContactForm , QuestionForm, ThemeForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse_lazy
@@ -38,7 +38,11 @@ def file(request):
     return render(request, 'file.html')
 
 def project(request):
-    return render(request, 'project.html')
+    user  = request.user
+    user_id = user.id
+    current_user= User.objects.get(id=user_id)
+    user_themes = current_user.theme_set.all()
+    return render(request, 'project.html', {'themes': user_themes})
 
 ##Classe para acesso as informações da tabela Theme
 # class ThemeListView(ListView):
@@ -146,11 +150,53 @@ def delete_question(request, id):
     return render(request, 'question-delete-form.html', {'question': question})
 
 ##Classe para acesso as informações da tabela Attempt
-class AttemptListView(ListView):
-    model = Attempt
+# class AttemptListView(ListView):
+#     model = Attempt
 
-class AttemptDetailView(DetailView):
-    model = Attempt
+# class AttemptDetailView(DetailView):
+#     model = Attempt
+
+def list_attempt(request):
+    
+    user  = request.user
+    user_id = user.id
+    current_user = User.objects.get(id=user_id)
+    # attempts = Attempt.objects.filter(attempt_number=1,user=user_id)
+    lastAttempt = current_user.attempt_set.order_by('attempt_number')[0]
+
+    attempts = Attempt.objects.filter(attempt_number=lastAttempt.attempt_number,user=user_id)
+    # attempts = AttemptForm(request.POST or None, instance=antes)
+    if request.POST:
+        print('-----------------------')
+        print(request.POST)
+
+    return render(request, 'attempts.html', {'attempts': attempts})
+
+def create_attempt(request):
+    # form = AttemptForm(request.POST or None)
+    user  = request.user
+    user_id = user.id
+    # form.initial["user"] = user_id
+    current_user = User.objects.get(id=user_id)
+    user_themes = current_user.theme_set.all()
+    if request.POST:
+        quantidade_select = request.POST['quantidade_perguntas']
+        themeId = request.POST['decks']
+        theme = Theme.objects.get(id=themeId)
+        questions = current_user.question_set.all().filter(theme=theme).order_by('?')[:int(quantidade_select)]
+        lastAttempt = current_user.attempt_set.order_by('attempt_number')[0]
+        if lastAttempt.attempt_number :
+            thisAttempt = lastAttempt.attempt_number + 1
+        else:
+            thisAttempt = 0
+
+        for question in questions:
+            attempt = Attempt(attempt_number = int(thisAttempt), got_it_right=0 , difficult=0,question=question, user = current_user)
+            attempt.save()
+            # form = AttemptForm(request.POST or None, instance=attempt)
+            return redirect('list_attempt') 
+
+    return render(request, 'create_attempts.html', {'themes': user_themes})
 
 
 

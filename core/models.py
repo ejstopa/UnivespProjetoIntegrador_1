@@ -40,12 +40,16 @@ class Difficults_options(models.IntegerChoices):
 class Attempt(models.Model):
     attempt_number = models.IntegerField(null=False)
     attempt_date = models.DateTimeField(auto_now_add=True)
-    got_it_right = models.BooleanField
-    difficult = models.IntegerField(choices=Difficults_options.choices)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    got_it_right = models.BooleanField(verbose_name='acertou')
+    difficult = models.IntegerField(choices=Difficults_options.choices, verbose_name='Dificuldade')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,verbose_name='Questão')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='usuários')
+    
     class Meta:
         db_table = 'attempts'
+
+    def __str__(self):
+        return self.question.description        
     
 
 

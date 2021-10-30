@@ -16,6 +16,9 @@
             <lable class="lable" for="playcards">Escolha sua matéria:</lable>
             <select class="decks" name="playcards" id="decks">
                 <!-- This part is where put the questions-->
+                {% for theme in themes %}
+                    <option> {{theme.description}} </option>
+                {%endfor%}
             </select>
         </div>
         
