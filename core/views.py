@@ -180,6 +180,9 @@ def list_attempt(request):
                     updateAttempt.difficult = int(request.POST[value])
                     updateAttempt.save()
 
+        return render(request,'alert.html')
+
+
 
 
     return render(request, 'attempts.html', {'attempts': attempts})
