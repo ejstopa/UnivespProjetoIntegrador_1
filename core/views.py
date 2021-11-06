@@ -162,39 +162,56 @@ def list_attempt(request):
     user_id = user.id
     current_user = User.objects.get(id=user_id)
     # attempts = Attempt.objects.filter(attempt_number=1,user=user_id)
-    lastAttempt = current_user.attempt_set.order_by('attempt_number')[0]
-
+    lastAttempt = current_user.attempt_set.order_by('-attempt_number')[0]
     attempts = Attempt.objects.filter(attempt_number=lastAttempt.attempt_number,user=user_id)
     # attempts = AttemptForm(request.POST or None, instance=antes)
     if request.POST:
-        print('-----------------------')
-        print(request.POST)
+        for value in request.POST:
+
+            if (value != 'csrfmiddlewaretoken'):
+                x = value.split("_")
+                id = x[1]
+                updateAttempt = Attempt.objects.get(id=id)
+                if (value == 'got-it-right_'+id):
+                    print('got_it_right yes')
+                    updateAttempt.got_it_right = 1
+                    updateAttempt.save()
+                if (value == 'difficult_'+id):
+                    updateAttempt.difficult = int(request.POST[value])
+                    updateAttempt.save()
+
+
 
     return render(request, 'attempts.html', {'attempts': attempts})
 
 def create_attempt(request):
-    # form = AttemptForm(request.POST or None)
     user  = request.user
     user_id = user.id
-    # form.initial["user"] = user_id
+
     current_user = User.objects.get(id=user_id)
     user_themes = current_user.theme_set.all()
     if request.POST:
         quantidade_select = request.POST['quantidade_perguntas']
         themeId = request.POST['decks']
         theme = Theme.objects.get(id=themeId)
-        questions = current_user.question_set.all().filter(theme=theme).order_by('?')[:int(quantidade_select)]
-        lastAttempt = current_user.attempt_set.order_by('attempt_number')[0]
+
+        lastAttempt = current_user.attempt_set.order_by('-attempt_number')[0]
         if lastAttempt.attempt_number :
             thisAttempt = lastAttempt.attempt_number + 1
         else:
             thisAttempt = 0
 
+        questions = current_user.question_set.all().filter(theme=theme).order_by('?')[:int(quantidade_select)]
+        count = 0
+        length = questions.count()
         for question in questions:
+            print('for question print this')
+            print(question)
             attempt = Attempt(attempt_number = int(thisAttempt), got_it_right=0 , difficult=0,question=question, user = current_user)
             attempt.save()
-            # form = AttemptForm(request.POST or None, instance=attempt)
-            return redirect('list_attempt') 
+            count += 1
+            if count == length:
+                return redirect('list_attempt') 
 
     return render(request, 'create_attempts.html', {'themes': user_themes})
 

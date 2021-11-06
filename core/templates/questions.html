@@ -12,11 +12,27 @@
             <h1>Perguntas</h1>
         </div>
         <ul class="list-group">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Pergunta</th>
+                    <th scope="col">Matéria</th>
+                  </tr>
+                </thead>
+                <tbody>
             {% for question in questions %}
-                <a href="{% url 'core:update_question' question.id %}">
-                    <li class="list-group-item"> {{ question.description }}</li>
-                </a>
+                  <tr>
+                    <td><a href="{% url 'core:update_question' question.id %}">
+                            <li class="list-group-item"> {{ question.description }}</li>
+                        </a>
+                    </td>
+                    <td><li class="list-group-item"> {{ question.theme.description }}</li></td>
+                  </tr>
+                
+                
             {% endfor %}
+                </tbody>
+            </table>
         </ul>
 
         <a href="{% url 'core:create_question' %}"> <button class="btn btn-primary" >  Nova Questão </button></a>

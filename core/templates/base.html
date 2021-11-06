@@ -13,7 +13,7 @@
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="" class="navbar-brand">Projeto Anki Univesp</a>
+          <a href="{% url 'index' %}" class="navbar-brand">Projeto Anki Univesp</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -26,44 +26,28 @@
               <a href="{% url 'index' %}">Início</a>
             </li>  
             {% if user.is_authenticated %}
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'file' %}" id="download">Arquivo<span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="download">
-                <li><a href="{% url 'file' %}">Mudar Perfil</a></li>
-                <li><a href="{% url 'file' %}">Importar</a></li>
-                <li><a href="{% url 'file' %}">Exportar</a></li>
-                <li><a href="{% url 'logout' %}">Sair</a></li>
-              </ul>
-            </li> 
-            <li class="dropdown">
+            <!-- <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'file' %}" id="download">Editar<span class="caret"></span></a>
               <ul class="dropdown-menu" aria-labelledby="download">
                 <li><a href="{% url 'file' %}">Desfazer</a></li>                
               </ul>
-            </li>                
+            </li>                 -->
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'file' %}" id="download">Ferramentas <span class="caret"></span></a>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'file' %}" id="download">Cadastros <span class="caret"></span></a>
               <ul class="dropdown-menu" aria-labelledby="download">
-                <li><a href="{% url 'core:list_question' %}">Estudar Baralho</a></li>
+                <li><a href="{% url 'core:list_question' %}">Criar Baralho</a></li>
                 <li><a href="{% url 'core:list_theme' %}">Matérias(categorias)</a></li>
-                <li><a href="{% url 'file' %}">Criar Baralho Filtrado</a></li>
-                <li><a href="{% url 'file' %}">Verificar Banco de Dados</a></li>
-                <li><a href="{% url 'file' %}">Verificar Mídia</a></li>
-                <li><a href="{% url 'file' %}">Catões Vazios</a></li>
-                <li><a href="{% url 'file' %}">Extensões</a></li>
-                <li><a href="{% url 'file' %}">Gerenciar Tipos de Notas</a></li>
-                <li><a href="{% url 'file' %}">Preferências</a></li>
               </ul>
             </li>
             {% endif %}
-            <li class="dropdown">
+            <!-- <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'file' %}" id="download">Ajuda<span class="caret"></span></a>
               <ul class="dropdown-menu" aria-labelledby="download">
                 <li><a href="{% url 'file' %}">Guia</a></li>
                 <li><a href="{% url 'file' %}">Contribua Conosco</a></li>
                 <li><a href="{% url 'file' %}">Sobre</a></li>                
               </ul>
-            </li> 
+            </li>  -->
               <li>
                 <a href="{% url 'contact' %}">Contato</a>
              </li>   
