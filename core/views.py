@@ -180,7 +180,7 @@ def list_attempt(request):
                     updateAttempt.difficult = int(request.POST[value])
                     updateAttempt.save()
 
-        return render(request,'alert.html')
+        return render(request, 'alert.html', {'no_record_check': 1})
 
 
 
@@ -198,18 +198,19 @@ def create_attempt(request):
         themeId = request.POST['decks']
         theme = Theme.objects.get(id=themeId)
 
-        lastAttempt = current_user.attempt_set.order_by('-attempt_number')[0]
-        if lastAttempt.attempt_number :
-            thisAttempt = lastAttempt.attempt_number + 1
+        if current_user.attempt_set.count() > 0:
+            lastAttempt = current_user.attempt_set.order_by('-attempt_number')[0]
+            if lastAttempt.attempt_number :
+                thisAttempt = lastAttempt.attempt_number + 1
         else:
-            thisAttempt = 0
+            thisAttempt = 1
 
         questions = current_user.question_set.all().filter(theme=theme).order_by('?')[:int(quantidade_select)]
         count = 0
         length = questions.count()
+        if length <= 0:
+            return render(request,'alert.html', {'no_record_check': 0})
         for question in questions:
-            print('for question print this')
-            print(question)
             attempt = Attempt(attempt_number = int(thisAttempt), got_it_right=0 , difficult=0,question=question, user = current_user)
             attempt.save()
             count += 1
