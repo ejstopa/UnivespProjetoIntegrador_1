@@ -74,7 +74,7 @@
   <div> 
     {% if user.is_authenticated %}
     <!-- <p><a href="{% url 'project' %}" class="btn btn-primary">Clique aqui</a></p>    -->
-    <p><a href="{% url 'config_tentativa' %}" class="btn btn-primary">Clique aqui</a></p> 
+    <p><a name="btn_configura_tentativa" id="btn_configura_tentativa" href="{% url 'config_tentativa' %}" class="btn btn-primary">Clique aqui</a></p> 
     {% else %}
     <p>Favor logar para continuar a usar nossos serviços <a href="{% url 'login' %}">Entrar</a></p>
     {% endif %}

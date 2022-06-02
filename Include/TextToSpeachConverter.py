@@ -27,9 +27,9 @@ class TextToSpeachConverterPyttsx3:
         engine.runAndWait()
         
 
-Converter = TextToSpeachConverterGtts()
-Converter.ConvertAndPlay('Teste conversão texto')
+#Converter = TextToSpeachConverterGtts()
+#Converter.ConvertAndPlay('Teste conversão texto')
 
-Converter = TextToSpeachConverterPyttsx3()
-Converter.ConvertAndPlay('Teste conversão texto')    
+#Converter = TextToSpeachConverterPyttsx3()
+#Converter.ConvertAndPlay('Teste conversão texto')    
         

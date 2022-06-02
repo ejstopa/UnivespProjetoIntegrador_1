@@ -1,7 +1,7 @@
 from unicodedata import category
 from django.db import models
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import AttemptForm, ContactForm , QuestionForm, ThemeForm
 from django.core.mail import send_mail
 from django.conf import settings
@@ -11,12 +11,16 @@ from django.views.generic import View, TemplateView, CreateView, DetailView, Lis
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import Question, Theme, Attempt, Category
+from Include import TextToSpeachConverter
+from django.utils.encoding import uri_to_iri
+import urllib
 
 User = get_user_model()
 
 class IndexView(TemplateView):
     template_name = 'index.html'
 index = IndexView.as_view()
+
 
 @login_required
 def contact(request):
@@ -157,13 +161,15 @@ def delete_question(request, id):
 #     model = Attempt
 
 def list_attempt(request):
-    
+    questionCount = 0
     user  = request.user
     user_id = user.id
     current_user = User.objects.get(id=user_id)
     # attempts = Attempt.objects.filter(attempt_number=1,user=user_id)
     lastAttempt = current_user.attempt_set.order_by('-attempt_number')[0]
     attempts = Attempt.objects.filter(attempt_number=lastAttempt.attempt_number,user=user_id)
+    Convert = TextToSpeachConverter.TextToSpeachConverterPyttsx3()
+
     # attempts = AttemptForm(request.POST or None, instance=antes)
     if request.POST:
         for value in request.POST:
@@ -172,6 +178,9 @@ def list_attempt(request):
                 x = value.split("_")
                 id = x[1]
                 updateAttempt = Attempt.objects.get(id=id)
+                #Ao salvar (finalizar a tentativa) fala a pergunta e as respostas.
+                Convert.ConvertAndPlay('Pergunta: ' + updateAttempt.question.description)
+                Convert.ConvertAndPlay('Resposta: ' + updateAttempt.question.answer)
                 if (value == 'got-it-right_'+id):
                     updateAttempt.got_it_right = 1
                     updateAttempt.save()
@@ -181,10 +190,13 @@ def list_attempt(request):
 
         return render(request, 'alert.html', {'no_record_check': 1})
 
-
-
+    # Falar as perguntas geradas
+    for attempt in attempts:
+        Convert.ConvertAndPlay('Pergunta ' + str(questionCount) + ':' +  attempt.question.description)
+        questionCount += 1
 
     return render(request, 'attempts.html', {'attempts': attempts})
+
 
 def create_attempt(request):
     user  = request.user
@@ -230,6 +242,14 @@ def create_attempt(request):
 
     return render(request, 'create_attempts.html', {'themes': user_themes, 'categories': categories})
 
-
+def readText(request):
+   # print (request.GET)
+    decodeTextUrl = urllib.parse.unquote(str(request.GET['text']))
+    Convert = TextToSpeachConverter.TextToSpeachConverterPyttsx3()
+    #print('----------------------------+++++++++------------------')
+    #print(urllib.parse.unquote(str(request.GET['text'])))
+    #Convert.ConvertAndPlay(decodeTextUrl)
+    data={'valor':'teste'}
+    return JsonResponse(data)
 
 
