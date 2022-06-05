@@ -1,3 +1,4 @@
+import asyncio
 from unicodedata import category
 from django.db import models
 from django.shortcuts import redirect, render
@@ -179,8 +180,9 @@ def list_attempt(request):
                 id = x[1]
                 updateAttempt = Attempt.objects.get(id=id)
                 #Ao salvar (finalizar a tentativa) fala a pergunta e as respostas.
-                Convert.ConvertAndPlay('Pergunta: ' + updateAttempt.question.description)
-                Convert.ConvertAndPlay('Resposta: ' + updateAttempt.question.answer)
+                #Convert.ConvertAndPlay('Pergunta: ' + updateAttempt.question.description)
+                #Convert.ConvertAndPlay('Resposta: ' + updateAttempt.question.answer)
+             
                 if (value == 'got-it-right_'+id):
                     updateAttempt.got_it_right = 1
                     updateAttempt.save()
@@ -227,7 +229,6 @@ def create_attempt(request):
             questions = questions.order_by('?')[:int(quantidade_select)]
         else:
             questions = current_user.question_set.all().filter(theme=theme).order_by('?')[:int(quantidade_select)]
-
         count = 0
         length = questions.count()
         if length <= 0:
@@ -248,7 +249,7 @@ def readText(request):
     Convert = TextToSpeachConverter.TextToSpeachConverterPyttsx3()
     #print('----------------------------+++++++++------------------')
     #print(urllib.parse.unquote(str(request.GET['text'])))
-    #Convert.ConvertAndPlay(decodeTextUrl)
+    Convert.ConvertAndPlay(decodeTextUrl)
     data={'valor':'teste'}
     return JsonResponse(data)
 

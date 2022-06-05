@@ -6,8 +6,8 @@
 	<title>{% block title %}Projeto Anki Univesp{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}" media="screen" />
-	<link rel="stylesheet" href="{% static 'assets/custom.min.css' %}" media="screen" /> 
+	<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" media="screen" />
+	<link rel="stylesheet" href="{% static 'assets/css/custom.min.css' %}" media="screen" /> 
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -53,6 +53,8 @@
              </li>   
             </ul>
             <ul class="nav navbar-nav navbar-right">
+             
+              <li> <button type="button" class="btn btn-primary alignment-center" id="sound-button" name="sound-button"> <span class="glyphicon glyphicon-volume-up" aria-hidden="true"> </span> </button> </li>
               {% if user.is_authenticated %}
               <li><a href="{% url 'logout' %}">Sair</a></li>
               {% else %}
@@ -74,7 +76,7 @@
 		<footer>
 			<div class="row">
 			  <div class="col-lg-12">
-			    <ul class="list-unstyled">			      >
+			    <ul class="list-unstyled">
 			      <li><a href="{% url 'index' %}">Início</a></li>			      
 			      <li><a href="{% url 'contact' %}">Contato</a></li>
             <li><a href="{% url 'file' %}">Preferências</a></li>
@@ -103,7 +105,7 @@
 		</footer>
 	</div>  
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="{% static 'assets/bootstrap.min.js' %}"></script>
-  <script src="{% static 'assets/custom.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
 </body>
 </html>
