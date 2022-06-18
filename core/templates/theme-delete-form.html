@@ -3,13 +3,13 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    Matéria | {{ block.super }}
+    Temas | {{ block.super }}
 {% endblock %}
 {% block container %}
 <div>
     <form method="post">
         {% csrf_token %}
-        <h2>Tem certeza que deseja remover esta matéria {{ theme.description }} ?</h2>
+        <h2>Tem certeza que deseja remover este Tema {{ theme.description }} ?</h2>
         <button type="submit" class="btn btn-primary">Confirmar</button>
     </form>
 </div>

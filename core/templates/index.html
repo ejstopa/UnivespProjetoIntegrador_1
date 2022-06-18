@@ -66,14 +66,15 @@
 </div>
 
 <div class="jumbotron page-header">
-  <h1>Projeto Anki Univesp</h1>
+  <!-- <h1>Projeto Anki Univesp</h1> -->
+  <h1>Projeto SEREI</h1>
   {% if user.is_authenticated %}
   <p>Projeto feito para contribuir com sua melhor aprendizagem e conhecimento. Clique no link abaixo e divirta-se.</p>
   {% endif %}
   <div> 
     {% if user.is_authenticated %}
     <!-- <p><a href="{% url 'project' %}" class="btn btn-primary">Clique aqui</a></p>    -->
-    <p><a href="{% url 'config_tentativa' %}" class="btn btn-primary">Clique aqui</a></p> 
+    <p><a name="btn_configura_tentativa" id="btn_configura_tentativa" href="{% url 'config_tentativa' %}" class="btn btn-primary">Clique aqui</a></p> 
     {% else %}
     <p>Favor logar para continuar a usar nossos serviços <a href="{% url 'login' %}">Entrar</a></p>
     {% endif %}

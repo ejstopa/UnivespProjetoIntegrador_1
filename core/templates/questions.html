@@ -16,7 +16,8 @@
                 <thead>
                   <tr>
                     <th scope="col">Pergunta</th>
-                    <th scope="col">Matéria</th>
+                    <th scope="col">Tema</th>
+                    <th scope="col">Pública</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,9 @@
                         </a>
                     </td>
                     <td><li class="list-group-item"> {{ question.theme.description }}</li></td>
+                    <!-- a função do jango  {{VALUE|yesno:"texto se true, texto se falsez texto caso nulo"}} 
+                        pemite configurar respostas padronizadas para valores booleanos -->
+                    <td><li class="list-group-item">  {{ question.public|yesno:"SIM,NO,MAYBE" }}   </li></td>
                   </tr>
                 
                 

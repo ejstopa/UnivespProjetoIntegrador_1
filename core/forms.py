@@ -22,17 +22,17 @@ class ContactForm(forms.Form):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['description', 'answer', 'theme', 'user']
+        fields = ['description', 'answer', 'theme','public', 'user']
 
 class ThemeForm(forms.ModelForm):
     class Meta:
         model = Theme
-        fields = ['description','user']
+        fields = ['description', 'category', 'user']
 
 class AttemptForm(forms.ModelForm):
     class Meta:
         model = Attempt
-        fields = ['attempt_number', 'question', 'difficult', 'got_it_right','user']        
+        fields = ['attempt_number', 'question', 'difficult', 'got_it_right', 'user']        
 
 # class AttemptForm(forms.Form):
 #     attempt_number = forms.IntegerField(label='Tentativa')

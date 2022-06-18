@@ -36,4 +36,7 @@ urlpatterns = [
     # url(r'^questoes/$', views.list_question, name="list_question"),   
     url(r'^materias/$', views.list_theme, name="list_theme"),   
     url(r'^admin/', admin.site.urls),
+    #teste
+    url(r'^readText/$',views.readText, name="readText"),
+    
 ]
