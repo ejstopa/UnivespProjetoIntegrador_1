@@ -1,3 +1,2 @@
-
 usuário administrador: admin
 senha: ^l@XUFB*
